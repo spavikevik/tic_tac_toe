@@ -1,6 +1,7 @@
 class Board
   def initialize
     @state = {a: ["*"]*3, b: ["*"]*3, c: ["*"]*3}
+    @moves = 9
   end
 
   def to_s
@@ -12,18 +13,34 @@ class Board
     row, col = move[0].chomp.to_sym, move[1].chomp.to_i
     begin
       make_move(row, col, player)
+      decrement_moves
     rescue InvalidMoveException
       raise ArgumentError, "Field out of bounds / field already played!"
     end
   end
 
   def win_or_tie?
-    return check_win?
+    winner = check_win?
+    if winner && winner != "*"
+      return winner
+    elsif winner == "*" && moves == 0
+      return :tie
+    else
+      return nil
+    end
   end
 
   private
     def state
       @state
+    end
+
+    def moves
+      @moves
+    end
+
+    def decrement_moves
+      @moves -= 1
     end
 
     def format_state

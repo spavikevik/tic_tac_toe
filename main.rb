@@ -28,13 +28,13 @@ loop do
     player_in_turn = p1
   end
   winner = b.win_or_tie?
-  if winner && winner != '*'
-    puts "#{winner.name} wins!"
-    break
-  elsif winner == '*'
-    next
-  else
+  if winner == :tie
     puts "A tie!"
     break
+  elsif winner
+    puts "#{winner.name} wins!"
+    break
+  else
+    next
   end
 end
